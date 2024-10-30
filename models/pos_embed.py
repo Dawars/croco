@@ -148,7 +148,7 @@ except ImportError:
             assert tokens.size(3)%2==0, "number of dimensions should be a multiple of two"
             D = tokens.size(3) // 2
             assert positions.ndim==3 and positions.shape[-1] == 2 # Batch, Seq, 2
-            cos, sin = self.get_cos_sin(D, int(positions.max())+1, tokens.device, tokens.dtype)
+            cos, sin = self.get_cos_sin(D, positions.max().long()+1, tokens.device, tokens.dtype)
             # split features into two along the feature dimension, and apply rope1d on each half
             y, x = tokens.chunk(2, dim=-1)
             y = self.apply_rope1d(y, positions[:,:,0], cos, sin)

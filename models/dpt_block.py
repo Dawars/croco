@@ -422,8 +422,8 @@ class DPTOutputAdapter(nn.Module):
         H, W = image_size
         
         # Number of patches in height and width
-        N_H = H // (self.stride_level * self.P_H)
-        N_W = W // (self.stride_level * self.P_W)
+        N_H = torch.floor_divide(H, (self.stride_level * self.P_H))
+        N_W = torch.floor_divide(W, (self.stride_level * self.P_W))
 
         # Hook decoder onto 4 layers from specified ViT layers
         layers = [encoder_tokens[hook] for hook in self.hooks]
